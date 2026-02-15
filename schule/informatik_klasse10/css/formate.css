@@ -1,0 +1,80 @@
+body {
+    background-color: #ffffff;
+}
+
+img {
+    image-rendering: pixelated;
+}
+
+a {
+    color: #cf7226
+}
+
+h1{
+    font-size: 1.8em;
+    font-family: sans-serif;
+    color: #353535
+}
+
+p {
+    font-size: 1.1em;
+    font-family: sans-serif;
+}
+
+header, footer {
+    margin: 0;                /* Removes the gap above and below the header */
+    background-color: #ffffff; /* Green background */
+    color: rgb(133, 133, 133);             /* White text color */
+    text-align: center;       /* Center-align text */
+    padding: 30px;            /* Add padding inside the header */
+    font-family: Arial, sans-serif; /* Choose a font */
+    /*box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+}
+
+.full-width-img {
+    width: 100%; /* Makes the image stretch across the whole width of the page */
+    /*height: 300px; /* Set the fixed height */
+    /*object-fit: cover; /* Maintains aspect ratio while filling the space */
+}
+
+.banner_container {
+    position: relative;
+    /*text-align: center;*/
+    color: white;
+    image-rendering: pixelated;
+    width: 100%; /* Breite des Divs */
+    height: 400px; /* Höhe des Divs */
+    background-image: url('../assets/orange_banner.png'); /* Pfad zum Bild */
+    background-size: cover; /* Bild proportional skalieren, um den gesamten Bereich auszufüllen */
+    /*background-position: center; /* Bild zentrieren */
+    background-repeat: repeat; /* Wiederholung des Bildes verhindern */
+}
+
+.bottom_right {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+}
+
+.top_left{
+    position: absolute;
+    top: 20px;
+    left: 30px;
+}
+
+.top_left h1{
+    color: rgb(255, 255, 255);
+    font-size: 3em;
+}
+
+.lightsaber_img {
+    image-rendering: pixelated;
+    width: 100px;
+    position: absolute;
+    object-fit: cover;
+}
+
+#lightsaber_container {
+    position: relative;
+    border: #353535;
+}

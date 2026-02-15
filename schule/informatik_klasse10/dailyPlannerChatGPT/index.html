@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Planner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --purple: #6a0dad;
+      --light-purple: #e0d7f3;
+      --light-grey: #f5f5f5;
+      --white: #ffffff;
+      --border-radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--light-grey);
+      color: #333;
+    }
+
+    header {
+      background-color: var(--purple);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      border-bottom-left-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    #clock {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .current-task {
+      margin-top: 10px;
+      background-color: var(--light-purple);
+      padding: 15px;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: var(--white);
+      padding: 20px;
+      border-radius: var(--border-radius);
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.01);
+    }
+
+    .task-list .card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .task-list .icon {
+      flex-shrink: 0;
+      color: var(--purple);
+    }
+
+    .task p {
+      margin: 4px 0;
+    }
+
+    form {
+      margin-top: 30px;
+      background: var(--light-purple);
+      padding: 20px;
+      border-radius: var(--border-radius);
+    }
+
+    form h3 {
+      margin-top: 0;
+      font-weight: 600;
+    }
+
+    form input, form button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: var(--border-radius);
+    }
+
+    form input:focus {
+      outline: none;
+      border-color: var(--purple);
+    }
+
+    form button {
+      background: var(--purple);
+      color: white;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    form button:hover {
+      background: #580f9c;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div id="clock">Loading...</div>
+    <div id="currentTask" class="current-task">No current task</div>
+  </header>
+
+  <div class="container">
+
+    <section class="task-list" id="taskList"></section>
+
+    <form id="taskForm">
+      <h3>Add a New Task</h3>
+      <input type="text" id="desc" placeholder="Task description" required />
+      <input type="time" id="startTime" required />
+      <input type="time" id="endTime" required />
+      <button type="submit">Add Task</button>
+    </form>
+
+  </div>
+
+  <script>
+    const clockEl = document.getElementById("clock");
+    const currentTaskEl = document.getElementById("currentTask");
+    const taskListEl = document.getElementById("taskList");
+    const taskForm = document.getElementById("taskForm");
+    const descInput = document.getElementById("desc");
+    const startInput = document.getElementById("startTime");
+    const endInput = document.getElementById("endTime");
+
+    let tasks = [];
+
+    function updateClock() {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second: '2-digit'});
+      clockEl.textContent = timeString;
+      updateCurrentTask(now);
+    }
+
+    function updateCurrentTask(now) {
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+      let current = null;
+      for (const task of tasks) {
+        if (currentMinutes >= task.startMinutes && currentMinutes < task.endMinutes) {
+          current = task;
+          break;
+        }
+      }
+
+      if (current) {
+        const end = new Date();
+        end.setHours(Math.floor(current.endMinutes / 60), current.endMinutes % 60, 0);
+        const msLeft = end - now;
+        const min = Math.floor(msLeft / 60000);
+        const sec = Math.floor((msLeft % 60000) / 1000);
+        currentTaskEl.innerHTML = `
+          <span>⏰ <strong>${current.desc}</strong></span><br>
+          <span>🕒 ${min}m ${sec}s left</span>
+        `;
+      } else {
+        currentTaskEl.textContent = "No current task";
+      }
+    }
+
+    function renderTasks() {
+      taskListEl.innerHTML = "";
+      tasks.sort((a, b) => a.startMinutes - b.startMinutes);
+      for (const task of tasks) {
+        const div = document.createElement("div");
+        div.className = "card task fade-in";
+        div.innerHTML = `
+          <div class="icon" data-lucide="clock"></div>
+          <div>
+            <p><strong>${task.desc}</strong></p>
+            <p>${task.start} – ${task.end}</p>
+          </div>
+        `;
+        taskListEl.appendChild(div);
+      }
+      lucide.createIcons();
+    }
+
+    taskForm.addEventListener("submit", e => {
+      e.preventDefault();
+      const desc = descInput.value.trim();
+      const start = startInput.value;
+      const end = endInput.value;
+
+      const [startH, startM] = start.split(":").map(Number);
+      const [endH, endM] = end.split(":").map(Number);
+      const startMinutes = startH * 60 + startM;
+      const endMinutes = endH * 60 + endM;
+
+      if (endMinutes <= startMinutes) {
+        alert("End time must be after start time.");
+        return;
+      }
+
+      tasks.push({ desc, start, end, startMinutes, endMinutes });
+      renderTasks();
+      taskForm.reset();
+    });
+
+    setInterval(updateClock, 1000);
+    updateClock(); // Initial
+  </script>
+
+</body>
+</html>

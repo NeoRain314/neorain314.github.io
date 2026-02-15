@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bobs Motivations-Power</title>
+    <style>
+        /* ------------------------------------- */
+        /* BASIS-STYLING */
+        /* ------------------------------------- */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #e0cbe6; /* Heller Hintergrund */
+            font-family: 'Arial', sans-serif;
+            overflow: hidden; /* Wichtig, um das Wegfliegen des Textes nicht abzuschneiden */
+
+            color: #6e4e77;
+        }
+
+        /* ------------------------------------- */
+        /* BOB DAS STRICHMÄNNCHEN */
+        /* ------------------------------------- */
+        #bob-container {
+            position: relative;
+            cursor: pointer; /* Zeigt an, dass man klicken kann */
+            display: inline-block;
+            transition: transform 0.1s; /* Leichte Animation beim Klicken */
+        }
+
+        #bob-container:active {
+            transform: scale(0.98); /* Kleiner "Zucken" beim Klicken */
+        }
+
+        #bob-image {
+            width: 200px; /* Größe des GIF anpassen */
+            height: auto;
+            display: block;
+            border-radius: 15px; /* Optionale Abrundung */
+            box-shadow: 0 4px 15px rgba(68, 3, 77, 0.2);
+        }
+
+        /* ------------------------------------- */
+        /* SPRUCH-ANZEIGE */
+        /* ------------------------------------- */
+        .motivation-text {
+            position: absolute;
+            font-size: 1em;
+            font-weight: bold;
+            color: #73537c;
+            padding: 10px 20px;
+            border-radius: 10px;
+            background-color: #eddef1d8;
+            border: 3px solid #d3bbda;
+            white-space: nowrap; /* Wichtig, damit der Text nicht umbricht */
+            pointer-events: none; /* Ignoriert Mausklicks */
+            opacity: 0; /* Startet unsichtbar */
+            transform: translate(-50%, -50%); /* Zentriert den Text um die Position */
+            z-index: 10;
+        }
+
+        /* CSS-Keyframes für die wegfliegende Animation */
+        @keyframes fly-away {
+            0% {
+                opacity: 1;
+                /* Die Position wird über die Animation interpoliert */
+                transform: translate(-50%, -50%) scale(1); 
+                filter: blur(0px); /* Startet ohne Blur */
+            }
+            
+            /* Hält den Blur-Effekt bis 70% der Animation bei 0 */
+            70% { 
+                filter: blur(0px); 
+            }
+            
+            100% {
+                opacity: 0;
+                transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.5);
+                filter: blur(5px); /* Max. Blur am Ende */
+            }
+        }
+
+        .flying {
+            animation: fly-away 3s ease-out forwards;
+        }
+
+        /* ------------------------------------- */
+        /* FEUERWERK-EFFEKT (Partikel) */
+        /* ------------------------------------- */
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--color); /* Farbe wird per JS gesetzt */
+            pointer-events: none;
+            z-index: 20;
+            animation: explode 5s cubic-bezier(0.1, 1, 0.8, 1) forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--p-dx), var(--p-dy)) scale(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to Bob's Motivation Website!</h1>
+    <p> mit KI-generierten Motivationssprüchen...</p>
+    <br>
+
+    <div id="bob-container">
+        <img id="bob-image" src="Bob_V1" alt="Animiertes Strichmännchen Bob">
+    </div>
+
+    <div id="message-container"></div>
+
+    <script>
+        // -------------------------------------
+        // JAVASCRIPT LOGIK
+        // -------------------------------------
+
+        const bobContainer = document.getElementById('bob-container');
+        const messageContainer = document.getElementById('message-container');
+        
+        // Liste der lustigen Motivationssprüche
+        const motivationQuotes = [
+            "Du bist nicht faul, du sparst nur Energie für Wichtigeres!",
+            "Kaffee-Level: Geladen. Los geht's!",
+            "Selbst eine kaputte Uhr hat zweimal am Tag recht. Du hast öfter recht!",
+            "Wenn du fällst, steh wieder auf... außer du magst den Boden.",
+            "Dein einziger Fehler heute: Du hast Bob noch nicht geklickt.",
+            "Motivation ist wie ein Furz. Wenn du ihn erzwingst, ist er wahrscheinlich Mist.",
+            "Prokrastination ist die Kunst, gestern für morgen zu erledigen.",
+            "Du bist ein Diamant, den niemand knacken kann. Höchstens Bob.",
+            "Mach weiter! Oder hör auf und iss einen Keks. Beides ist okay.",
+            "Das Leben ist kurz. Lächle, solange du noch Zähne hast!"
+        ];
+
+        let lastIndex = -1; // Speichert den Index des zuletzt verwendeten Spruchs
+
+        // Funktion, um einen zufälligen Spruch auszuwählen
+        function getRandomQuote() {
+            let randomIndex;
+            // Stelle sicher, dass der Spruch nicht zweimal hintereinander kommt
+            do {
+                randomIndex = Math.floor(Math.random() * motivationQuotes.length);
+            } while (randomIndex === lastIndex);
+            
+            lastIndex = randomIndex;
+            return motivationQuotes[randomIndex];
+        }
+
+        // Funktion zur Erstellung des Feuerwerk-Effekts
+        function createFireworks(x, y) {
+            const colors = ['#ab3cc7', '#ff17f7', '#ff69b4', '#be57fa', '#ff2f7b'];
+            const numberOfParticles = 80;
+
+            for (let i = 0; i < numberOfParticles; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Zufällige Farbe und Position
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.setProperty('--color', color);
+                
+                // Positioniere die Partikel im Zentrum von Bob
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+
+                // Setze die zufällige Flugrichtung (für die CSS-Animation)
+                const dx = (Math.random() - 0.5) * 200; // X-Richtung
+                const dy = (Math.random() - 0.5) * 200; // Y-Richtung
+                particle.style.setProperty('--p-dx', `${dx}px`);
+                particle.style.setProperty('--p-dy', `${dy}px`);
+
+                document.body.appendChild(particle);
+
+                // Entferne das Partikel nach der Animation
+                setTimeout(() => {
+                    particle.remove();
+                }, 5500);
+            }
+        }
+
+
+        // Hauptfunktion, die beim Klick ausgelöst wird
+        bobContainer.addEventListener('click', (event) => {
+            const quote = getRandomQuote();
+            
+            // 1. Spruch-Element erstellen
+            const quoteElement = document.createElement('div');
+            quoteElement.classList.add('motivation-text');
+            quoteElement.textContent = quote;
+
+            // Positioniere den Text direkt über Bob
+            const bobRect = bobContainer.getBoundingClientRect();
+            // Die Mitte des Bob-Containers in Bezug auf das Viewport
+            const centerX = bobRect.left + bobRect.width / 2;
+            const centerY = bobRect.top + bobRect.height / 2;
+
+            // Setze die Startposition (CSS translate(-50%, -50%) zentriert es dann)
+            quoteElement.style.left = `${centerX}px`;
+            quoteElement.style.top = `${centerY - 50}px`; // Etwas nach oben versetzt
+
+            // Füge das Element zum DOM hinzu
+            messageContainer.appendChild(quoteElement);
+
+            // 2. Feuerwerk-Effekt auslösen
+            createFireworks(centerX, centerY);
+
+            // 3. Animation starten
+            // Setze zufällige Flugrichtung für die CSS-Animation
+            const randomX = (Math.random() - 0.5) * 800;
+            const randomY = (Math.random() - 0.5) * 800;
+
+            quoteElement.style.setProperty('--dx', `${randomX}px`);
+            quoteElement.style.setProperty('--dy', `${randomY}px`);
+            
+            // Verzögert die Klasse hinzufügen, um sicherzustellen, dass die Initialwerte gesetzt sind
+            // und die Animation korrekt ausgelöst wird.
+            requestAnimationFrame(() => {
+                quoteElement.classList.add('flying');
+            });
+
+
+            // 4. Element nach der Animation entfernen (sollte etwas länger sein als die CSS-Animation)
+            setTimeout(() => {
+                quoteElement.remove();
+            }, 1500); // Entspricht der Animationsdauer (1.5s)
+        });
+
+    </script>
+</body>
+</html>

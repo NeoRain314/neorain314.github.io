@@ -1,0 +1,67 @@
+body {
+    background-color: #dde3f0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    display: block;
+    background-color: #b0b7c8;
+    color: #505f85;
+    text-decoration: none;
+    padding: 10px;
+    font-weight: bold;
+    text-align: left;
+}
+
+table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th#voc_card {
+    background-color: white;
+    border: 2px solid gray;
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    width: 200px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-image: url('card_background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    image-rendering: pixelated;
+}
+
+button {
+    background-color: #d0d3e0;
+    border: 2px solid gray;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+button:hover {
+    background-color: #c0c3d0;
+}
+
+#button_settings {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+}
+
+#language {
+    color: gray;
+    font-size 0.8em;
+    font-style: italic; 
+}
