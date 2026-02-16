@@ -1,17 +1,226 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>HTML Strucktur</title>
+    <title>Meine Website</title>
     <meta charset="utf-8" />
-    <style></style>
+    <style>
+      /* ===== Grunddesign ===== */
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #0f172a;
+        color: #e2e8f0;
+      }
+
+      h1, h2, h3 {
+        margin: 0;
+        font-weight: 600;
+      }
+
+      a {
+        text-decoration: none;
+        color: #38bdf8;
+        transition: 0.3s;
+      }
+
+      a:hover {
+        color: #7dd3fc;
+      }
+
+      /* ===== Layout ===== */
+      header {
+        padding: 40px 20px;
+        text-align: center;
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        border-bottom: 1px solid #334155;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: auto;
+        padding: 40px 20px;
+      }
+
+      .card {
+        background: #1e293b;
+        border-radius: 16px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      }
+
+      /* ===== Über mich ===== */
+      .about {
+        line-height: 1.7;
+        font-size: 18px;
+      }
+
+      /* ===== Link Sektionen ===== */
+      .links-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .link-group h3 {
+        margin-bottom: 15px;
+        color: #f1f5f9;
+      }
+
+      .link-button {
+        display: block;
+        background: #0f172a;
+        border: 1px solid #334155;
+        padding: 12px 16px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        font-weight: 500;
+      }
+
+      .link-button:hover {
+        background: #020617;
+        border-color: #38bdf8;
+      }
+
+      /* ===== Projekt-Links ===== */
+      .project-links {
+        margin-top: 10px;
+      }
+
+      .project-link {
+        display: block;
+        font-size: 18px;
+        color: #e2e8f0;
+        padding: 6px 0;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        transition: all 0.25s ease;
+      }
+
+      .project-link:hover {
+        color: #38bdf8;
+        border-bottom: 1px solid #38bdf8;
+        padding-left: 6px;
+      }
+
+      .project-desc {
+        font-size: 14px;
+        color: #64748b; /* dunkler & dezenter */
+        margin-left: 15px;
+        white-space: nowrap;
+      }
+
+
+      /* ===== Footer ===== */
+      footer {
+        text-align: center;
+        padding: 20px;
+        border-top: 1px solid #334155;
+        font-size: 14px;
+        color: #94a3b8;
+      }
+    </style>
   </head>
-  <p> test </p>
+  <hr>
   <body>
-    <script></script>
+    <!-- ===== Header / Titel ===== -->
+    <header>
+      <h1>Jasmin Dammertz</h1>
+      <p>NeoRain314</p>
+    </header>
+
+    <div class="container">
+      <!-- ===== Über mich Bereich ===== -->
+      <section class="card">
+        <h2>Über mich</h2>
+        <p class="about">
+          Hier kannst du ein paar Worte über dich schreiben.
+          Zum Beispiel wer du bist, was du machst und woran du arbeitest.
+          Dieser Bereich eignet sich perfekt für Projekte, Interessen
+          und deine kreative Beschreibung.
+        </p>
+      </section>
+
+      <!-- ===== Über mich Bereich ===== -->
+      <section class="card">
+        <h2>Websiten und Projekte</h2> 
+          <a class="project-link" href="https://github.com/NeoRain314/NwT_Facharbeit_Kl10">
+            <span>IntelliClock</span>
+            <span class="project-desc">smarter Arduino Wecker - Schulprojekt Klasse 10 NwT</span>
+          </a>
+          <a class="project-link" href="bob_motivation_page/index.html">
+            <span>Bob'S Motivation Page</span>
+            <span class="project-desc">If you are in bad mood, click here. Trust!</span>
+          </a>
+          <a class="project-link" href="schule/informatik_klasse10/index.html">
+            <span>Informatik Klasse 10 Website</span>
+            <span class="project-desc">Website an welcher wir in der Schule gearbeitet haben</span>
+          </a>
+          <a class="project-link" href="#">
+            <span>Glitch</span>
+            <span class="project-desc">meine alten Glitch-Projekte</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ===== Links Bereich (unterteilt) ===== -->
+      <section class="card">
+        <h2>Links</h2>
+        <div class="links-grid">
+
+          <!-- Musik / YouTube -->
+          <div class="link-group">
+            <h3>Musik</h3>
+            <a class="link-button" href="https://www.youtube.com/@minimachtmusik" target="_blank">
+              YouTube
+            </a>
+          </div>
+
+          <!-- Programmieren -->
+          <div class="link-group">
+            <h3>Programming</h3>
+            <a class="link-button" href="https://github.com/NeoRain314" target="_blank">
+              GitHub
+            </a>
+            <a class="link-button" href="https://neorain314.itch.io/" target="_blank">
+              Itch.io Projekte
+            </a>
+            <a class="link-button" href="https://scratch.mit.edu/users/Jassi9999/" target="_blank">
+              Scratch Profile
+            </a>
+          </div>
+
+          <!-- Kunst / Blog -->
+          <div class="link-group">
+            <h3>Kunst</h3>
+            <a class="link-button" href="https://meine-kritzelwelt.blogspot.com/" target="_blank">
+              Blog
+            </a>
+          </div>
+
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      © 2026 Dein Name – Alle Rechte vorbehalten
+    </footer>
+
+    <script>
+      // Hier kannst du später JavaScript hinzufügen
+    </script>
   </body>
 </html>
 
 <!--
-
+ANPASSUNGSTIPPS:
+- "Dein Name" ersetzen
+- Texte im Über mich Bereich anpassen
+- # bei den Links durch echte URLs ersetzen
+- Farben im CSS ändern für eigenes Farbschema
 -->
-
