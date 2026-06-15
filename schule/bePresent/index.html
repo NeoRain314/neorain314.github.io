@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Be Present</title>
+    <script type="module" crossorigin src="./assets/index-B2wXx5c4.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-1_e1tCvC.css">
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div class="brand">
+          <img class="brand-logo" src="./brand/logo.png" alt="Be Present" />
+        </div>
+        <nav class="tabs">
+          <button class="tab is-active" data-i18n="tabs.presentations">My Presentations</button>
+          <button class="tab" data-i18n="tabs.practice">Practice</button>
+          <button class="tab" data-i18n="tabs.analyses">Your Analyses</button>
+          <button class="tab" data-i18n="tabs.vrheadset">Our VR-Headset</button>
+        </nav>
+        <div class="actions">
+          <button id="start-presentation-btn" class="btn btn-primary" data-i18n="actions.startPresentation">Start Presentation</button>
+          <button id="new-presentation-btn" class="btn" data-i18n="actions.newPresentation">+ New Presentation</button>
+          <div class="profile-summary" aria-label="Logged in user">
+            <div class="profile-avatar" aria-hidden="true"></div>
+            <div class="profile-name" data-i18n="user.username">username</div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section id="presentation-list" class="presentation-list"></section>
+      </main>
+    </div>
+
+    <div id="start-modal" class="modal-backdrop" hidden>
+      <div class="modal">
+        <h2 data-i18n="modal.title">Presentation Selection</h2>
+        <label>
+          <span data-i18n="modal.presentationLabel">Presentation</span>
+          <select id="presentation-select"></select>
+        </label>
+        <label>
+          <span data-i18n="modal.roomLabel">Room</span>
+          <select id="room-select"></select>
+        </label>
+        <div class="modal-actions">
+          <button id="modal-cancel" class="btn" data-i18n="actions.cancel">Cancel</button>
+          <button id="modal-start" class="btn btn-primary" data-i18n="actions.start">Start</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="info-modal" class="modal-backdrop" hidden>
+      <div class="modal">
+        <h2 data-i18n="infoModal.title">Edit presentation info</h2>
+        <label>
+          <span data-i18n="infoModal.dateLabel">Date</span>
+          <input id="info-date" type="date" />
+        </label>
+        <label>
+          <span data-i18n="infoModal.targetTimeLabel">Target time</span>
+          <input id="info-target-time" type="number" min="1" step="1" data-i18n-placeholder="infoModal.targetTimePlaceholder" placeholder="Duration in minutes" />
+        </label>
+        <label>
+          <span data-i18n="infoModal.extraInfoLabel">Extra information</span>
+          <textarea id="info-extra" rows="5" data-i18n-placeholder="infoModal.extraInfoPlaceholder" placeholder="Add notes, goals, or context for this presentation. (for example Assessment guidelines of your teacher)"></textarea>
+        </label>
+        <div class="file-upload">
+          <span data-i18n="infoModal.presentationFileLabel">Presentation file</span>
+          <input id="info-file" type="file" accept="application/pdf,.pdf" hidden />
+          <button id="info-file-button" type="button" class="btn" data-i18n="infoModal.uploadPdf">Upload PDF</button>
+          <div id="info-file-name" class="file-name" data-i18n="infoModal.noFileSelected">No PDF selected.</div>
+        </div>
+        <div class="modal-actions">
+          <button id="info-cancel" class="btn" data-i18n="actions.cancel">Cancel</button>
+          <button id="info-save" class="btn btn-primary" data-i18n="actions.save">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="vr-root" class="vr-root" hidden></div>
+  </body>
+</html>
